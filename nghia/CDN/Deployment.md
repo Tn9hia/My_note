@@ -1,2 +1,5 @@
-With mid cache
-client=> *cname (kzac.tech <==> edge.vncdn.vn)* => edge server => *cname(mid-tier ??? => ip mid tier?)* ???=> origin (103.90.220.76)
+Basic
+- client => Cname=> edge.vncdn.vn (DA) => origin
+With mid cache (Mid-tier)
+ - Client => Cname => edge.vncdn.vn (DA) => mid.domain => IP Mid-tier (DA) => origin
+

@@ -4,23 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "fc0bd499eb2852be",
+        "id": "bc4016f752861119",
         "type": "tabs",
         "children": [
           {
-            "id": "ef0eb1fbaedf6adb",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "CDN/Question???.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "c4526d5e31c73033",
+            "id": "bdc8e839233607cf",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -31,8 +19,7 @@
               }
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -159,22 +146,36 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "c4526d5e31c73033",
+  "active": "bdc8e839233607cf",
   "lastOpenFiles": [
-    "photo/Pasted image 20240414165121.png",
-    "CDN/Question???.md",
-    "photo",
-    "AWS/IAM/IAM.md",
-    "AWS/IAM/IAM Policies Structure.md",
+    "CDN/HTTP/HTTP Status Code.md",
     "CDN/HTTP/HTTP header.md",
-    "CDN/logs/Command.md",
-    "CDN/Deployment.md",
-    "CDN/Components.md",
-    "CDN/HTTP/HTTP Version/HTTP1.md",
-    "CDN/logs",
     "CDN/HTTP/HTTP Version/HTTP3.md",
-    "CDN/HTTP/HTTP Version",
+    "CDN/HTTP/Access-Control-Allow-Credentials.md",
+    "CDN/Question???.md",
+    "Access-Control-Allow-Origin.md",
     "CDN/HTTP/HTTP Version/HTTP2.md",
+    "CDN/HTTP/HTTP Version/HTTP1.md",
+    "HTTP 1.1.md",
+    "CDN/Deployment.md",
+    "CDN/logs/Command.md",
+    "CDN/Components.md",
+    "Tools/My new linux.md",
+    "Week 2 CDN.md",
+    "Record.md",
+    "photo/Pasted image 20240416233124.png",
+    "photo/Pasted image 20240416225843.png",
+    "photo/Pasted image 20240416101638.png",
+    "photo/Pasted image 20240416231741.png",
+    "photo/Pasted image 20240416231737.png",
+    "photo/Pasted image 20240416231733.png",
+    "Tools",
+    "AWS/IAM/IAM.md",
+    "photo/Pasted image 20240414165121.png",
+    "photo",
+    "AWS/IAM/IAM Policies Structure.md",
+    "CDN/logs",
+    "CDN/HTTP/HTTP Version",
     "CDN/HTTP",
     "Untitled.canvas",
     "policies.md",
