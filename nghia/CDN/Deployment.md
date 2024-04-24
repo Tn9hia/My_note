@@ -1,5 +1,5 @@
 Basic
-- client => Cname=> edge.vncdn.vn (DA) => origin
+- client => edge.vncdn.vn(cname) =>vietnam.ced.jns.swiftserve.com(cname) => IP(DA server) => origin
 With mid cache (Mid-tier)
- - Client => Cname => edge.vncdn.vn (DA) => mid.domain => IP Mid-tier (DA) => origin
+ - Client => edge.vncdn.vn(cname) =>vietnam.ced.jns.swiftserve.com(cname) => IP(DA server) =>  IP Mid-tier (DA) => origin
 
