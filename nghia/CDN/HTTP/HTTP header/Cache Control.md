@@ -95,8 +95,148 @@ The `private` response directive indicates that the response can be stored onl
 ```
 Cache-Control: private
 ```
-
 You should add the `private` directive for user-personalized content, especially for responses received after login and for sessions managed via cookies.
 
 If you forget to add `private` to a response with personalized content, then that response can be stored in a shared cache and end up being reused for multiple users, which can cause personal information to leak.
+#### `public`
+
+The `public` response directive indicates that the response can be stored in a shared cache. Responses for requests with `Authorization` header fields must not be stored in a shared cache; however, the `public` directive will cause such responses to be stored in a shared cache.
+
+```
+Cache-Control: public
+```
+
+In general, when pages are under Basic Auth or Digest Auth, the browser sends requests with the `Authorization` header. This means that the response is access-controlled for restricted users (who have accounts), and it's fundamentally not shared-cacheable, even if it has `max-age`
+You can use the `public` directive to unlock that restriction.
+```
+Cache-Control: public, max-age=604800
+```
+
+Note that `s-maxage` or `must-revalidate` also unlock that restriction.
+
+If a request doesn't have an `Authorization` header, or you are already using `s-maxage` or `must-revalidate` in the response, then you don't need to use `public`.
+#### `must-understand`
+
+The `must-understand` response directive indicates that a cache should store the response only if it understands the requirements for caching based on status code.
+
+`must-understand` should be coupled with `no-store` for fallback behavior.
+
+HTTPCopy to Clipboard
+
+```
+Cache-Control: must-understand, no-store
+```
+
+If a cache doesn't support `must-understand`, it will be ignored. If `no-store` is also present, the response isn't stored.
+
+If a cache supports `must-understand`, it stores the response with an understanding of cache requirements based on its status code.
+
+#### `no-transform`
+
+Some intermediaries transform content for various reasons. For example, some convert images to reduce transfer size. In some cases, this is undesirable for the content provider.
+
+`no-transform` indicates that any intermediary (regardless of whether it implements a cache) shouldn't transform the response contents.
+#### `immutable`
+
+The `immutable` response directive indicates that the response will not be updated while it's fresh.
+```
+Cache-Control: public, max-age=604800, immutable
+```
+
+A modern best practice for static resources is to include version/hashes in their URLs, while never modifying the resources — but instead, when necessary, _updating_ the resources with newer versions that have new version-numbers/hashes, so that their URLs are different. That's called the **cache-busting** pattern.
+```
+<script src=https://example.com/react.0.0.0.js></script>
+```
+
+When a user reloads the browser, the browser will send conditional requests for validating to the origin server. But it's not necessary to revalidate those kinds of static resources even when a user reloads the browser, because they're never modified. `immutable` tells a cache that the response is immutable while it's fresh and avoids those kinds of unnecessary conditional requests to the server.
+#### `stale-while-revalidate`
+
+The `stale-while-revalidate` response directive indicates that the cache could reuse a stale response while it revalidates it to a cache.
+
+```
+Cache-Control: max-age=604800, stale-while-revalidate=86400
+```
+
+In the example above, the response is [[HTTP Caching#Fresh and stale based on age|fresh]] for 7 days (604800s). After 7 days it becomes [[HTTP Caching#Fresh and stale based on age|stale]], but the cache is allowed to reuse it for any requests that are made in the following day (86400s), provided that they revalidate the response in the background.
+
+Revalidation will make the cache be [[HTTP Caching#Fresh and stale based on age|fresh]] again, so it appears to clients that it was always [[HTTP Caching#Fresh and stale based on age|fresh]] during that period — effectively hiding the latency penalty of revalidation from them.
+
+If no request happened during that period, the cache became [[HTTP Caching#Fresh and stale based on age|stale]] and the next request will revalidate normally.
+#### `stale-if-error`
+
+The `stale-if-error` response directive indicates that the cache can reuse a [stale response](https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching#fresh_and_stale_based_on_age) when an upstream server generates an error, or when the error is generated locally. Here, an error is considered any response with a status code of 500, 502, 503, or 504.
+```
+Cache-Control: max-age=604800, stale-if-error=86400
+```
+
+In the example above, the response is [[HTTP Caching#Fresh and stale based on age|fresh]] for 7 days (604800s). Afterwards, it becomes [[HTTP Caching#Fresh and stale based on age|stale]], but can be used for an extra 1 day (86400s) when an error is encountered.
+
+After the stale-if-error period passes, the client will receive any error generated.
 ### Request Directives
+#### `no-cache`
+
+The `no-cache` request directive asks caches to validate the response with the origin server before reuse.
+
+```
+Cache-Control: no-cache
+```
+
+`no-cache` allows clients to request the most up-to-date response even if the cache has a [[HTTP Caching#Fresh and stale based on age|fresh]] response.
+
+Browsers usually add `no-cache` to requests when users are **force reloading** a page.
+#### `no-store`
+
+The `no-store` request directive allows a client to request that caches refrain from storing the request and corresponding response — even if the origin server's response could be stored.
+
+```
+Cache-Control: no-store
+```
+#### `max-age`
+
+The `max-age=N` request directive indicates that the client allows a stored response that is generated on the origin server within _N_ seconds — where _N_ may be any non-negative integer (including `0`).
+```
+Cache-Control: max-age=10800
+```
+
+In the case above, if the response with `Cache-Control: max-age=10800` was generated more than 3 hours ago (calculated from `max-age` and the `Age` header), the cache couldn't reuse that response.
+
+Many browsers use this directive for **reloading**, as explained below.
+```
+Cache-Control: max-age=0
+```
+
+`max-age=0` is a workaround for `no-cache`, because many old (HTTP/1.0) cache implementations don't support `no-cache`. Recently browsers are still using `max-age=0` in "reloading" — for backward compatibility — and alternatively using `no-cache` to cause a "force reloading".
+
+If the `max-age` value isn't non-negative (for example, `-1`) or isn't an integer (for example, `3599.99`), then the caching behavior is undefined. However, the [Calculating Freshness Lifetime](https://httpwg.org/specs/rfc9111.html#calculating.freshness.lifetime) section of the HTTP specification states:
+
+> Caches are encouraged to consider responses that have invalid freshness information to be stale.
+
+In other words, for any `max-age` value that isn't an integer or isn't non-negative, the caching behavior that's encouraged is to treat the value as if it were `0`.
+#### `max-stale`
+
+The `max-stale=N` request directive indicates that the client allows a stored response that is [[HTTP Caching#Fresh and stale based on age|stale]] within _N_ seconds.
+```
+Cache-Control: max-stale=3600
+```
+
+In the case above, if the response with `Cache-Control: max-age=604800` was generated more than 3 hours ago (calculated from `max-age` and the `Age` header), the cache couldn't reuse that response.
+
+Clients can use this header when the origin server is down or too slow and can accept cached responses from caches even if they are a bit old.
+
+Note that the major browsers do not support requests with `max-stale`.
+#### `min-fresh`
+
+The `min-fresh=N` request directive indicates that the client allows a stored response that is [[HTTP Caching#Fresh and stale based on age|fresh]] for at least _N_ seconds.
+```
+Cache-Control: min-fresh=600
+```
+
+In the case above, if the response with `Cache-Control: max-age=3600` was stored in caches 51 minutes ago, the cache couldn't reuse that response.
+
+Clients can use this header when the user requires the response to not only be [[HTTP Caching#Fresh and stale based on age|fresh]], but also requires that it won't be updated for a period of time.
+
+Note that the major browsers do not support requests with `min-fresh`.
+
+#### `no-transform`
+
+Same meaning that `no-transform` has for a response, but for a request instead.

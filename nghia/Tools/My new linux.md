@@ -28,13 +28,19 @@ git clone https://github.com/zdharma-continuum/fast-syntax-highlighting.git ${ZS
 ```
 git clone --depth 1 -- https://github.com/marlonrichert/zsh-autocomplete.git $ZSH_CUSTOM/plugins/zsh-autocomplete
 ```
+- Add plugin
+```
+plugins=(git zsh-autosuggestions zsh-syntax-highlighting fast-syntax-highlighting zsh-autocomplete)
+```
+Source
+- [Oh my ZSH with zsh-autosuggestions zsh-syntax-highlighting zsh-fast-syntax-highlighting and zsh-autocomplete.md (github.com)](https://gist.github.com/n1snt/454b879b8f0b7995740ae04c5fb5b7df)
 File .zshrc
 ```
 alias python=python3
-chekcip(){
+geoip(){
 	curl "ipinfo.io/$1?token=e44bf8dc3836de"
 }
-alias checkip=checkip
+alias geoip=geoip
 ```
 
 # Docker
