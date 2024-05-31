@@ -1,0 +1,3 @@
+HTTP dynamic streaming (HDS): HTTP dynamic streaming, or HDS, is an adaptive bitrate streaming method developed by Adobe. HDS delivers MP4 video content over HTTP connections. HDS can be used for on-demand streaming or live streaming. Since they are delivered over HTTP, HDS streams can be cached — either by a content delivery network (CDN) or another caching server.
+
+**Not maintainence by Adobe and support by Apple devices**

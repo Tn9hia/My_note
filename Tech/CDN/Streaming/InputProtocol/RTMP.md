@@ -1,0 +1,2 @@
+- RTMP, or **real-time messaging protocol** works by keeping an open connection between the client and the RTMP server
+- It’s based on TCP (Transmission Control Protocol) and helps you deliver streams at very low latencies, commonly uses the H.264 codec

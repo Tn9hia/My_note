@@ -1,0 +1,5 @@
+It is the same as [[HLS]] except some key difference:
+- **Encoding formats:** MPEG-DASH allows the use of any encoding standard. HLS, on the other hand, requires the use of H.264 or H.265.
+- **Device support:** HLS is the only format supported by Apple devices. iPhones, MacBooks, and other Apple products cannot play video delivered over MPEG-DASH.
+- **Segment length:** This was a larger difference between the protocols before 2016, when the default segment length for HLS was 10 seconds. Today the default length for HLS is 6 seconds, although it can be adjusted from the default. MPEG-DASH segments are usually between 2 and 10 seconds in length, although the optimum length is 2-4 seconds.
+- **Standardization:** MPEG-DASH is an international standard. HLS was developed by Apple and has not been published as an international standard, even though it has wide support.
