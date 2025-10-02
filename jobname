@@ -1,15 +1,12 @@
-DFVN Mangosteen-O2O-MDW (1.34)
-DFVN-Analytics (104.150)
-DFVN-API Production (104.15)
-DFVN-Cherry2 (1.53)
+DFVN-Inventory Hub (1.46) 
+DFVN-ECDC (1.88) - new 
+DFVN-POWERAPP-API (1.170)
+DFVN-Cashew (1.150)
 DFVN-Dates (1.45)
-DFVN-Guava Pro(1.73)
 DFVN-iHRP-APP
 DFVN-iHRP-DB2
-DFVN-My.SpaceMan-DB-Prod (1.81)
 DFVN-My.SpaceMan-Pub-New (1.83)
-DFVN-PA-GW (1.171)
-DFVN-POWERAPP-API (1.170)
+DFVN-My.SpaceMan-DB-Prod (1.81)
 DFVN-TOPOS API (1.76)
-DFVN-TOPOS-GO-API (104.76)
-Durian2 (1.55)
+DFVN-Guava Pro(1.73)
+Onion2 (1.27)
